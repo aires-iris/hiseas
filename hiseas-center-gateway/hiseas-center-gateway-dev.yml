@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: hiseas-dev
+  name: hiseas-center-gateway-dev
+  labels:
+    app: hiseas-center-gateway-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hiseas-center-gateway-dev
+  template:
+    metadata:
+      labels:
+        app: hiseas-center-gateway-dev
+    spec:
+      containers:
+        - name: hiseas-center-gateway-dev
+          image: 10.211.55.11:5566/hiseas-cloud/hiseas-center-gateway:v32
+          ports:
+            - containerPort: 8431
+      imagePullSecrets:
+        - name: harbor-pass # 确保你已创建了 secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: hiseas-dev
+  name: hiseas-center-gateway-svc-dev
+spec:
+  selector:
+    app: hiseas-center-gateway-dev
+  ports:
+    - protocol: TCP
+      port: 8431
+      targetPort: 8431
+  type: ClusterIP # 如果要暴露为 LoadBalancer，可更改为 LoadBalancer

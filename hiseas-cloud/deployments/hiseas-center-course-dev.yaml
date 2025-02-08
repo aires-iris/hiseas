@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: hiseas-dev
+  name: hiseas-center-course-dev
+  labels:
+    app: hiseas-center-course-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hiseas-center-course-dev
+  template:
+    metadata:
+      labels:
+        app: hiseas-center-course-dev
+    spec:
+      containers:
+        - name: hiseas-center-course-dev
+          image: 10.211.55.11:5566/hiseas-cloud/hiseas-center-user:v32
+          ports:
+            - containerPort: 9000
+      imagePullSecrets:
+        - name: harbor-pass # 确保你已创建了 secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: hiseas-dev
+  name: hiseas-center-course-svc-dev
+spec:
+  selector:
+    app: hiseas-center-course-dev
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+  type: ClusterIP # 如果要暴露为 LoadBalancer，可更改为 LoadBalancer

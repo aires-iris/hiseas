@@ -1,0 +1,77 @@
+server:
+  servlet:
+    encoding:
+      force: true
+      charset: utf-8
+      enabled: true
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%mdc{traceId:-},%mdc{ts:-}]'
+spring:
+  main:
+    allow-circular-references: true
+  data:
+    redis:
+      # Redis数据库索引（默认为0）
+      database: 1
+      # Redis服务器地址
+      host: ${SERVER_URL}
+      # Redis服务器连接端口
+      port: 6379
+      # Redis服务器连接密码（默认为空）
+      password: 5566
+      # 连接超时时间
+      timeout: 10s
+  application:
+    name: user-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${SERVER_URL}:3306/user_db?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 5566
+  cloud:
+    loadbalancer:
+      enabled: true
+      cache:
+        caffeine:
+          spec: initialCapacity=100,maximumSize=500,expireAfterAccess=30s
+    nacos:
+      discovery:
+        server-addr: ${SERVER_URL}:8848
+        namespace: 299989ad-139c-4f5d-aaba-3c73a5a17f0a
+        group: BIZ_GROUP
+      config:
+        server-addr: ${SERVER_URL}:8848
+        group: BIZ_GROUP
+        namespace: 299989ad-139c-4f5d-aaba-3c73a5a17f0a
+        file-extension: yaml
+        prefix: ${spring.application.name}-${spring.profiles.active}
+        shared-configs:
+          - data-id: common.yaml
+            refresh: true
+            group: BIZ_GROUP
+    sentinel:
+      transport:
+        dashboard: ${SERVER_URL}:8080
+        port: 8791
+sa-token:
+  # token 名称（同时也是 cookie 名称）
+  token-name: Access-Token
+  # token 有效期（单位：秒） 默认30天，-1 代表永久有效
+  timeout: 2592000
+  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  active-timeout: -1
+  # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+  is-concurrent: false
+  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+  is-share: true
+  # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: true
+  # jwt秘钥
+  jwt-secret-key: asdasdasifhueuiwyurfewbfj1dafjk
+  alone-redis:
+    host: ${SERVER_URL}
+    database: 2
+    password: 5566

@@ -1,0 +1,28 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: hiseas-cloud-gw
+spec:
+  gatewayClassName: istio
+  listeners:
+    - protocol: HTTP
+      port: 32613
+      name: hiseas-cloud-dev-gw
+      allowedRoutes:
+        namespaces:
+          from: "Selector"
+          selector:
+            matchLabels:
+              namespace: hiseas-dev
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: hiseas-cloud-route
+spec:
+  parentRefs:
+    - name: hiseas-cloud-gw
+  rules:
+    - backendRefs:
+        - name: hiseas-center-gateway-svc-dev
+          port: 8431
