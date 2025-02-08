@@ -18,7 +18,7 @@
         <junit.jupiter.version>5.8.2</junit.jupiter.version>
         <mybatis.plus.version>3.5.6</mybatis.plus.version>
         <mybatis.boot.version>3.0.2</mybatis.boot.version>
-        <mysql.version>8.0.33</mysql.version>
+        <mysql.version>8.2.0</mysql.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
