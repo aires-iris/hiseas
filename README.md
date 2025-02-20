@@ -47,4 +47,4 @@
 
 ## 5、使用
 
-[参考文章](https://www.zhengxiang.cc/archives/c8ea2c75-a4b6-4430-bd92-07e4186d41b7)
+[参考文章](https://www.zhengxiang.cc/blog/01-devops-environment-prepare/devops-environment-prepare)
